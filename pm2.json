@@ -1,0 +1,10 @@
+{
+  "apps": [
+      {
+          "name": "myshopimag",
+          "cwd": ".",
+          "script": "npm",
+          "args" : "start"
+      }
+  ]
+}
