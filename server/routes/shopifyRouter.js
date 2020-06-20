@@ -21,34 +21,8 @@ shopifyRouter.get("/test-delete-store", koaBody(), async (ctx) => {
   };
 });
 
-shopifyRouter.get("/test-get-store", koaBody(), async (ctx) => {
-  await db.createTable();
-  let item = await db.getItem({ store: "store1" });
-
-  if (!item) {
-    console.log("item not found", item);
-
-    item = await db.addItem({
-      store: "store1",
-      fastmag: {
-        enseigne: "FORM_IZAC",
-        magasin: "WEB",
-        compte: "DISKO",
-        motpasse: "123456!",
-      },
-    });
-  }
-
-  ctx.body = {
-    status: "success",
-    result: item,
-  };
-});
 
 shopifyRouter.get("/test-get-inventory", koaBody(), async (ctx) => {
-  //const inventoryToUpdate = []
-  // Je récupère tous les variants shopify avec id et qty stock, prix et id fastmag
-  // sous forme d'1 tableau avec l'id fastmag comme index
   const shopifyInventory = await shopify.getFullInventory();
   for (var key in shopifyInventory) {
     const item = shopifyInventory[key];
@@ -84,7 +58,7 @@ shopifyRouter.get(
   "/test-get-fulfillmentServiceByName",
   koaBody(),
   async (ctx) => {
-    const fulfillmentService = "fastmag";
+    const fulfillmentService = "service";
     const service = await shopify.getFulfillmentServiceByName(
       fulfillmentService
     );
@@ -98,8 +72,8 @@ shopifyRouter.get(
 
 shopifyRouter.get("/test-post-fulfillmentService", koaBody(), async (ctx) => {
   const changeset = {
-    name: "fastmag",
-    callback_url: `${HOST}/app/fastmag`,
+    name: "service",
+    callback_url: `${HOST}/app/service`,
     inventory_management: true,
     tracking_support: true,
     requires_shipping_method: true,
@@ -152,7 +126,7 @@ shopifyRouter.get("/test-connect-inventorylevels", koaBody(), async (ctx) => {
 shopifyRouter.get("/connect-inventorylevels", koaBody(), async (ctx) => {
   const shopifyLocationId = 35648602167;
 
-  const service = await shopify.getFulfillmentServiceByName("fastmag");
+  const service = await shopify.getFulfillmentServiceByName("service");
   const locationId = _.get(service, "location_id", null);
   const levels = await shopify.getInventoryLevels(shopifyLocationId);
   // Never more than 2 requests running at a time.
@@ -249,13 +223,11 @@ shopifyRouter.get("/test-put-variant-price", koaBody(), async (ctx) => {
 });
 
 shopifyRouter.get("/test-put-variant-metafield", koaBody(), async (ctx) => {
-  //good 34292705853485
-  //bad 34291181256749
   const variantId = 34291181256749;
   const update = await shopify.updateVariant(variantId, {
     metafields: [
       {
-        key: "fastmag-id",
+        key: "metafield-id",
         value: "newvalue",
         value_type: "string",
         namespace: "global",
@@ -294,7 +266,7 @@ shopifyRouter.get("/test-getall-orders", koaBody(), async (ctx) => {
   };
 });
 
-shopifyRouter.get("/test-get-orders-fastmag", koaBody(), async (ctx) => {
+shopifyRouter.get("/test-get-orders", koaBody(), async (ctx) => {
   const get = await shopify.getAllOrdersGQL(
     "created_at:>'2020-05-30T00:00:00+0100' AND fulfillment_status:unshipped"
   );
@@ -310,7 +282,7 @@ shopifyRouter.get("/get-order", koaBody(), async (ctx) => {
   const result = await shopify.getOrder(id);
   const orderMetafields = await shopify.getOrderMetafields(id);
   console.log("orderMetafields", orderMetafields);
-  const found = _.get(orderMetafields, "key") === "fastmag-order-id";
+  const found = _.get(orderMetafields, "key") === "order-id";
   console.log("found", found);
 
   ctx.body = {
@@ -342,7 +314,7 @@ shopifyRouter.get("/test-put-order", koaBody(), async (ctx) => {
     tags: "External, Inbound, Outbound",
     metafields: [
       {
-        key: "fastmag-order-id",
+        key: "order-id",
         value: "234564746",
         value_type: "string",
         namespace: "global",

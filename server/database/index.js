@@ -43,32 +43,6 @@ export const createTable = async () => {
   }
 };
 
-// export const addOrUpdateItem = async (shopId, item) => {
-//   let item = await getItem({ store: shopId });
-
-//   if (item) {
-//     const key = { store: shopId };
-
-//     var changeset = {
-//       UpdateExpression: "set #id1 = :x",
-//       ExpressionAttributeNames: { "#id1": "fastmag" },
-//       ExpressionAttributeValues: {
-//         ":x": {
-//           inventory: { lastCall: lastCall },
-//         },
-//       },
-//     };
-
-//     const item = await updateItem(key, changeset);
-//   } else {
-//     item = {
-//       store: shopId,
-//       ...item
-//     }
-//   }
-
-// }
-
 export const addItem = async (item) => {
   var params = {
     TableName: DATABASE,
@@ -214,40 +188,6 @@ export const scan = async (searchQuery) => {
 
     return false;
   }
-};
-
-export const getLastCall = async (shopId) => {
-  const key = { store: shopId, sk: "settings" };
-  const item = await getItem(key);
-  //console.log('Store', item);
-
-  if (!_.isEmpty(item) && _.get(item, "Item.fastmag.inventory.lastCall")) {
-    return _.get(item, "Item.fastmag.inventory.lastCall");
-  }
-
-  return null;
-};
-
-export const setLastCall = async (shopId, lastCall) => {
-  const key = { store: shopId, sk: "settings" };
-  let item = await getItem(key);
-
-  try {
-    const changeset = {
-      UpdateExpression: "SET fastmag.inventory = :x",
-      ExpressionAttributeValues: { ":x": { lastCall: lastCall } },
-    };
-    item = await updateItem(key, changeset);
-  } catch (e) {
-    const changeset = {
-      UpdateExpression:
-        "SET fastmag.inventory = if_not_exists(fastmag.inventory, :x)",
-      ExpressionAttributeValues: { ":x": { lastCall: lastCall } },
-    };
-    item = await updateItem(key, changeset);
-  }
-
-  return item;
 };
 
 export const log = async (shop, action, data) => {

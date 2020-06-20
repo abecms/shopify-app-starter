@@ -70,7 +70,7 @@ export const getFulfillmentOrderFulfillments = async (fulfillment_order_id) => {
 };
 
 export const createFulfillment = async (orderId) => {
-  const service = await getFulfillmentServiceByName("fastmag");
+  const service = await getFulfillmentServiceByName("service");
   const locationId = _.get(service, "location_id", null);
   let result = null;
   try {

@@ -103,7 +103,7 @@ export const createFulfillmentServiceQL = async (changeset) => {
       }
     }`,
     variables: {
-      name: "fastmag",
+      name: "service",
     },
   };
 
@@ -123,8 +123,8 @@ export const createFulfillmentServiceQL = async (changeset) => {
 
 export const createFulfillmentService = async (changeset) => {
   // changeset = {
-  //   name: "fastmag",
-  //   callback_url: `${HOST}/app/fastmag`,
+  //   name: "service",
+  //   callback_url: `${HOST}/app/service`,
   //   inventory_management: true,
   //   tracking_support: true,
   //   requires_shipping_method: true,
@@ -153,8 +153,8 @@ export const updateFulfillmentService = async (fulfillment_service_id) => {
     {
       fulfillment_service: {
         id: fulfillment_service_id,
-        name: "fastmag",
-        callback_url: `${HOST}/app/fastmag`,
+        name: "service",
+        callback_url: `${HOST}/app/service`,
       },
     }
   );

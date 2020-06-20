@@ -296,7 +296,7 @@ export const getFullInventory = async (locationId) => {
  * @param {*} qty
  */
 export const updateInventoryBulk = async (chunkInventory) => {
-  const service = await getFulfillmentServiceByName("fastmag");
+  const service = await getFulfillmentServiceByName("service");
   const locationId = _.get(service, "location_id", null);
   const gidLocation = `gid://shopify/Location/${locationId}`;
   const query = {
@@ -359,7 +359,7 @@ export const getFullCatalog = async (locationId) => {
                   name,
                   value
                 },
-                fastmagId: metafield(namespace: "global", key: "fastmag-id") {
+                serviceId: metafield(namespace: "global", key: "service-id") {
                   value
                 }
               }

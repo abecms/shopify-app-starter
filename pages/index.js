@@ -9,7 +9,7 @@ const Index = ({ data }) => (
   <Page>
     <Layout>
       <EmptyState
-        heading="Connect your Fastmag ERP with Shopify"
+        heading="Connect your App with Shopify"
         action={{
           content: "Go to the Dashboard",
           onAction: () => console.log("clicked"),

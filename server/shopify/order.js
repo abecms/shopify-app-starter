@@ -66,7 +66,7 @@ export const getAllOrdersGQL = async (filter = "") => {
                 createdAt
                 displayFinancialStatus
                 displayFulfillmentStatus
-                metafield(namespace:"global", key:"fastmag-order-id") {
+                metafield(namespace:"global", key:"service-order-id") {
                   id
                   value
                 }
