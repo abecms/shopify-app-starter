@@ -32,23 +32,26 @@ Then open a tunnel with ngrok :
 Build the nextJS files
 `npm run build`
 
+# Create the public or custom app on the partner shopify website
+
 # Install on an ECS server (AWS)
 
-- Choisir une instance ECS
-- une fois installée pour se connecter (avec la clé .pem qu'on a récupéré)
+- Choose an ECS server on AWS
+- once installed, get connect (with the .pem key given by AWS)
   ```
   ssh -i ~/.ssh/aws-mykey.pem ubuntu@url.eu-west-3.compute.amazonaws.com
   ```
-- Installer une version de Node `https://github.com/nodesource/distributions/blob/master/README.md`
-- Installer `n` pour gérer les versions de node et npm (changer les droits comme indiqué sur le github de n)
-- installer la version désirée `n 12`
-- Installer pm2 `npm i -g pm2`
-- Le lancer au boot : `sudo pm2 startup`
-- Installer un logrotate : `pm2 install pm2-logrotate`
-- Créer une clé via `ssh-keygen` puis copier la clé publique dans les settings du projet github (deploy keys) et s'assurer d'avoir des URL de type `git@github.com:{user}/{repo}.git`
-- Installer nginx
-- Pour pouvoir avoir nginx en Reverse proxy sur NodeJS + Koa, il faut que la config du RP nginx contienne :
+- Install Node `https://github.com/nodesource/distributions/blob/master/README.md`
+- Install `n` to manage versions of node and npm
+- install the version you want `n 12`
+- Install pm2 `npm i -g pm2`
+- Launch pm2 on server boot : `sudo pm2 startup`
+- Install a logrotate : `pm2 install pm2-logrotate`
+- Create a key `ssh-keygen` then paste this key in the github project's settings (deploy keys) and be sure to have this type of url : `git@github.com:{user}/{repo}.git`
+- Install nginx
+- For nginx to work as a Reverse proxy on NodeJS + Koa, your nginx config must contain :
   `proxy_set_header X-Forwarded-Proto $scheme;`
-  et que Koa dans server.js ait : `server.proxy = true;`
+  Koa in server.js : `server.proxy = true;`
 
-Ainsi, un setCookie secure sera bien positionné par Koa même s'il est en HTTP car il récupère la variable `X-Forwarded-Proto` qui contient HTTPS (il sait ainsi qu'il y a un reverse proxy en amont)
+This way a setCookie `secure` will be well served by Koa even if your server is in HTTP (bc it checks `X-Forwarded-Proto` which contains https
+
