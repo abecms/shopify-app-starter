@@ -140,12 +140,8 @@ app.prepare().then(() => {
   );
   //server.use(verifyRequest())
   server.use(apiRouter.routes(), apiRouter.allowedMethods());
-  // apiRouter.get("*", verifyRequest(), async ctx => {
-  //   await handle(ctx.req, ctx.res);
-  //   ctx.respond = false;
-  //   ctx.res.statusCode = 200;
-  // });
-  router.get("*", verifyRequest(), async (ctx) => {
+
+  router.get("(.*)", verifyRequest(), async (ctx) => {
     await handle(ctx.req, ctx.res);
     ctx.respond = false;
     ctx.res.statusCode = 200;

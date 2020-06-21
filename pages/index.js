@@ -17,7 +17,7 @@ const Index = ({ data }) => (
         image={img}
       >
         <p>
-          Access the dashboard to monitor the connection on {data.Item.store}
+          Access the dashboard
         </p>
       </EmptyState>
     </Layout>
