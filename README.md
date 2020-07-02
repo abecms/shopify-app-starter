@@ -32,7 +32,13 @@ Then open a tunnel with ngrok :
 Build the nextJS files
 `npm run build`
 
-# Create the public or custom app on the partner shopify website
+# Create App on Shopify
+
+Depending on the purpose of your app and how you’ll distribute or sell it, you first need to choose what type of app you’ll build. 
+
+- [Create a public app](https://shopify.dev/tutorials/authenticate-a-public-app-with-oauth)
+- [Create a custom app](https://shopify.dev/tutorials/authenticate-a-custom-app-with-oauth)
+- [Create a private app](https://shopify.dev/tutorials/authenticate-a-private-app-with-shopify-admin)
 
 # Install on an ECS server (AWS)
 
